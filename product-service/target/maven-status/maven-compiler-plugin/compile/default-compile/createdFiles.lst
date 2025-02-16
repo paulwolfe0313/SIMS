@@ -1,0 +1,5 @@
+com\sims\product\entity\Product.class
+com\sims\product\repository\ProductRepository.class
+main\java\com\sims\product\ProductServiceApplication.class
+com\sims\product\service\ProductService.class
+main\java\com\sims\product\controller\ProductController.class
