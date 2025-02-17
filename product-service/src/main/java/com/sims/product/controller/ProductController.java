@@ -1,4 +1,4 @@
-package main.java.com.sims.product.controller;
+package com.sims.product.controller;
 
 import com.sims.product.entity.Product;
 import com.sims.product.service.ProductService;

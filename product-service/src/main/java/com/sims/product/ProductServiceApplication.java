@@ -1,4 +1,4 @@
-package main.java.com.sims.product;
+package com.sims.product;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

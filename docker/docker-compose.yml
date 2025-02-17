@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  mysql-sims:
+    image: mysql:8.0
+    container_name: mysql-sims
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: inventory
+      MYSQL_USER: sims_user
+      MYSQL_PASSWORD: sims_password
+      SERVER_PORT: 9090
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql  # ✅ Fixed indentation
+    networks:
+      - sims-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  product-service:
+    build:
+      context: ../product-service  # ✅ Ensure the path is correct
+      dockerfile: Dockerfile        # ✅ Specifies the Dockerfile
+    container_name: product-service
+    depends_on:
+      mysql-sims:
+        condition: service_healthy  # ✅ Wait for MySQL to be ready
+    ports:
+      - "9090:9090"  # ✅ Check if your application actually runs on 9090
+    networks:
+      - sims-network
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-sims:3306/inventory
+      SPRING_DATASOURCE_USERNAME: sims_user
+      SPRING_DATASOURCE_PASSWORD: sims_password
+    restart: always
+
+volumes:
+  mysql_data:
+
+networks:
+  sims-network:
