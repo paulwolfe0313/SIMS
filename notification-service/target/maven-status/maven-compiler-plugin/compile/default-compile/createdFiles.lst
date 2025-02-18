@@ -1,0 +1,3 @@
+com\sims\notification\kafka\OrderConsumer.class
+com\sims\notification\NotificationServiceApplication.class
+com\sims\notification\event\OrderEvent.class

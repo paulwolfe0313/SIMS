@@ -2,4 +2,6 @@ C:\Users\PaulT\baylor\Dist_Systems\SIMS\order-service\src\main\java\com\sims\ord
 C:\Users\PaulT\baylor\Dist_Systems\SIMS\order-service\src\main\java\com\sims\order\repository\OrderRepository.java
 C:\Users\PaulT\baylor\Dist_Systems\SIMS\order-service\src\main\java\com\sims\order\controller\OrderController.java
 C:\Users\PaulT\baylor\Dist_Systems\SIMS\order-service\src\main\java\com\sims\order\service\OrderService.java
+C:\Users\PaulT\baylor\Dist_Systems\SIMS\order-service\src\main\java\com\sims\order\kafka\OrderProducer.java
 C:\Users\PaulT\baylor\Dist_Systems\SIMS\order-service\src\main\java\com\sims\order\OrderServiceApplication.java
+C:\Users\PaulT\baylor\Dist_Systems\SIMS\order-service\src\main\java\com\sims\order\event\OrderEvent.java
