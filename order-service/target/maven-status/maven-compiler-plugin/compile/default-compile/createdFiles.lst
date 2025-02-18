@@ -1,0 +1,5 @@
+com\sims\order\repository\OrderRepository.class
+com\sims\order\service\OrderService.class
+com\sims\order\OrderServiceApplication.class
+com\sims\order\controller\OrderController.class
+com\sims\order\entity\Order.class

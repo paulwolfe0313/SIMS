@@ -10,7 +10,6 @@ services:
       MYSQL_DATABASE: inventory
       MYSQL_USER: sims_user
       MYSQL_PASSWORD: sims_password
-      SERVER_PORT: 9090
     ports:
       - "3306:3306"
     volumes:
@@ -33,7 +32,25 @@ services:
       mysql-sims:
         condition: service_healthy  # ✅ Wait for MySQL to be ready
     ports:
-      - "9090:9090"  # ✅ Check if your application actually runs on 9090
+      - "9090:9090"  # ✅ Product-service runs on port 9090
+    networks:
+      - sims-network
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-sims:3306/inventory
+      SPRING_DATASOURCE_USERNAME: sims_user
+      SPRING_DATASOURCE_PASSWORD: sims_password
+    restart: always
+
+  order-service:
+    build:
+      context: ../order-service  # ✅ Ensure this path is correct
+      dockerfile: Dockerfile      # ✅ Specifies the Dockerfile
+    container_name: order-service
+    depends_on:
+      mysql-sims:
+        condition: service_healthy  # ✅ Wait for MySQL to be ready
+    ports:
+      - "9091:9091"  # ✅ Order-service runs on port 9091
     networks:
       - sims-network
     environment:
