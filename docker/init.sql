@@ -27,3 +27,18 @@ CREATE TABLE IF NOT EXISTS orders (
 -- Insert sample data into orders
 INSERT INTO orders (product_id, quantity, status) VALUES (1, 2, 'Pending');
 INSERT INTO orders (product_id, quantity, status) VALUES (2, 1, 'Completed');
+
+-- Create notifications table if it doesn't exist
+CREATE TABLE IF NOT EXISTS notifications (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    order_id BIGINT NOT NULL,
+    status VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
+    message VARCHAR(255) NOT NULL,  -- ✅ Ensure 'message' column exists
+    timestamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP -- ✅ Ensure 'timestamp' is set correctly
+);
+
+-- Insert sample data for notifications
+INSERT INTO notifications (order_id, status) VALUES (1, 'Order Received');
+INSERT INTO notifications (order_id, status) VALUES (2, 'Order Shipped');
