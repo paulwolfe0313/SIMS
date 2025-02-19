@@ -40,5 +40,4 @@ CREATE TABLE IF NOT EXISTS notifications (
 );
 
 -- Insert sample data for notifications
-INSERT INTO notifications (order_id, status) VALUES (1, 'Order Received');
-INSERT INTO notifications (order_id, status) VALUES (2, 'Order Shipped');
+INSERT INTO notifications (order_id, status, message, timestamp) VALUES (1, 'Order Confirmed', 'Your order has been successfully placed.', NOW());

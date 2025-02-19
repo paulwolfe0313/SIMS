@@ -1,0 +1,15 @@
+  notification-service:
+    build:
+      context: ../notification-service
+      dockerfile: Dockerfile
+    container_name: notification-service
+    depends_on:
+      kafka:
+        condition: service_healthy
+    ports:
+      - "9095:9095"
+    networks:
+      - sims-network
+    environment:
+      SPRING_PROFILES_ACTIVE: dev  # ✅ Ensures the right profile is used
+    restart: always

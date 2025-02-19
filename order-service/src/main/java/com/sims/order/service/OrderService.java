@@ -3,6 +3,8 @@ package com.sims.order.service;
 import com.sims.order.entity.Order;
 import com.sims.order.kafka.OrderProducer;
 import com.sims.order.repository.OrderRepository;
+
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,7 +16,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderProducer orderProducer;
 
-    public OrderService(OrderRepository orderRepository, OrderProducer orderProducer) {
+    public OrderService(OrderRepository orderRepository, @Lazy OrderProducer orderProducer) {
         this.orderRepository = orderRepository;
         this.orderProducer = orderProducer;
     }

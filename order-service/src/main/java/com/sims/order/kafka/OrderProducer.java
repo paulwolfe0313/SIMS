@@ -1,7 +1,9 @@
 package com.sims.order.kafka;
 
-
 import com.sims.order.event.OrderEvent;
+import org.apache.kafka.clients.admin.NewTopic;
+import org.springframework.context.annotation.Bean;
+import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
@@ -18,4 +20,6 @@ public class OrderProducer {
         kafkaTemplate.send("order-events", orderEvent);
         System.out.println("📨 Sent Order Event: " + orderEvent);
     }
+
+    
 }
