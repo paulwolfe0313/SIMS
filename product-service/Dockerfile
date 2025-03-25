@@ -1,19 +1,17 @@
-# Use OpenJDK 17 as base image
-FROM openjdk:17
-
-# Set the working directory inside the container
+FROM eclipse-temurin:17-jdk-alpine as builder
 WORKDIR /app
+RUN apk add --no-cache maven
+COPY . .
+RUN mvn clean package -DskipTests
 
-# Copy the correct JAR file from target folder into the container
-COPY target/product-service-1.0-SNAPSHOT.jar product-service.jar
+FROM eclipse-temurin:17-jre-alpine
+WORKDIR /app
+COPY --from=builder /app/target/*.jar app.jar
 
-# Expose port 8081 for communication
-EXPOSE 9090
-
-# Set environment variables (optional)
+# Set environment variables
 ENV SPRING_DATASOURCE_URL=jdbc:mysql://mysql-sims:3306/inventory
 ENV SPRING_DATASOURCE_USERNAME=sims_user
 ENV SPRING_DATASOURCE_PASSWORD=sims_password
 
-# Start the application
-CMD ["java", "-jar", "product-service.jar"]
+EXPOSE 9090
+ENTRYPOINT ["java", "-jar", "app.jar"]

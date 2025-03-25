@@ -1,14 +1,17 @@
-# Use OpenJDK 17 as the base image
-FROM openjdk:17
-
-# Set the working directory inside the container
+FROM eclipse-temurin:17-jdk-alpine as builder
 WORKDIR /app
+COPY . .
+RUN ./mvnw clean package -DskipTests
 
-# Copy the built JAR file into the container
-COPY target/notification-service-1.0-SNAPSHOT.jar notification-service.jar
+FROM eclipse-temurin:17-jre-alpine
+WORKDIR /app
+COPY --from=builder /app/target/*.jar app.jar
 
-# Expose port (choose a new port for this service)
-EXPOSE 9092
+# Add wait-for-it script to wait for dependent services
+ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh /wait-for-it.sh
+RUN chmod +x /wait-for-it.sh
 
-# Command to run the application
-CMD ["java", "-jar", "notification-service.jar"]
+# Wait for MySQL and Kafka to be ready before starting the application
+CMD ["/bin/sh", "-c", "/wait-for-it.sh mysql-sims:3306 -t 60 && /wait-for-it.sh kafka:9092 -t 60 && java -jar app.jar"]
+
+EXPOSE 9095

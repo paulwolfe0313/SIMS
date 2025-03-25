@@ -3,6 +3,8 @@ com\sims\order\controller\OrderController.class
 com\sims\order\entity\Order.class
 com\sims\order\kafka\OrderProducer.class
 com\sims\order\repository\OrderRepository.class
+com\sims\order\security\JwtAuthenticationFilter.class
 com\sims\order\service\OrderService.class
 com\sims\order\OrderServiceApplication.class
 com\sims\order\config\KafkaConfig.class
+com\sims\order\security\SecurityConfig.class

@@ -1,8 +1,10 @@
 C:\Users\PaulT\baylor\Dist_Systems\SIMS\notification-service\src\main\java\com\sims\notification\config\KafkaConfig.java
 C:\Users\PaulT\baylor\Dist_Systems\SIMS\notification-service\src\main\java\com\sims\notification\controller\NotificationController.java
+C:\Users\PaulT\baylor\Dist_Systems\SIMS\notification-service\src\main\java\com\sims\notification\security\SecurityConfig.java
 C:\Users\PaulT\baylor\Dist_Systems\SIMS\notification-service\src\main\java\com\sims\notification\entity\Notification.java
 C:\Users\PaulT\baylor\Dist_Systems\SIMS\notification-service\src\main\java\com\sims\notification\event\OrderEvent.java
 C:\Users\PaulT\baylor\Dist_Systems\SIMS\notification-service\src\main\java\com\sims\notification\NotificationServiceApplication.java
 C:\Users\PaulT\baylor\Dist_Systems\SIMS\notification-service\src\main\java\com\sims\notification\repository\NotificationRepository.java
 C:\Users\PaulT\baylor\Dist_Systems\SIMS\notification-service\src\main\java\com\sims\notification\service\NotificationService.java
 C:\Users\PaulT\baylor\Dist_Systems\SIMS\notification-service\src\main\java\com\sims\notification\kafka\OrderConsumer.java
+C:\Users\PaulT\baylor\Dist_Systems\SIMS\notification-service\src\main\java\com\sims\notification\security\JwtAuthenticationFilter.java

@@ -1,19 +1,26 @@
 package com.sims.notification.event;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
-
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
-@JsonIgnoreProperties(ignoreUnknown = true) // ✅ Ignore unknown JSON properties
-public class OrderEvent implements Serializable {
+public class OrderEvent {
     private Long orderId;
     private Long productId;
-    private int quantity;
+    private Long userId;
+    private Integer quantity;
     private String status;
+    private Double totalAmount;
+    private String orderDate;
+
+    // Constructor for basic order events
+    public OrderEvent(Long orderId, Long productId, Integer quantity, String status) {
+        this.orderId = orderId;
+        this.productId = productId;
+        this.quantity = quantity;
+        this.status = status;
+    }
 }

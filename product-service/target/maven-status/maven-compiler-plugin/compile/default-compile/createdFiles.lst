@@ -1,4 +1,6 @@
 com\sims\product\repository\ProductRepository.class
+com\sims\product\security\SecurityConfig.class
+com\sims\product\security\JwtAuthenticationFilter.class
 com\sims\product\entity\Product.class
 com\sims\product\ProductServiceApplication.class
 com\sims\product\controller\ProductController.class

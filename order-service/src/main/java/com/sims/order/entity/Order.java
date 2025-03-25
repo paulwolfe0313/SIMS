@@ -17,23 +17,35 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)  // Ensure productId is mandatory
+    @Column(nullable = false)
+    private Long userId;
+
+    @Column(nullable = false)
     private Long productId;
 
     @Column(nullable = false)
     private int quantity;
 
-    @Column(nullable = false, length = 20)  // Enforce constraints
-    private String status = "Pending"; // Default value
+    @Column(nullable = false, length = 20)
+    private String status = "PENDING";
 
     @Column(nullable = false)
-    private LocalDateTime orderDate = LocalDateTime.now(); // Default value
+    private LocalDateTime orderDate = LocalDateTime.now();
 
-    // Constructor for creating an order
+    private Double totalAmount;
+
     public Order(Long productId, int quantity) {
         this.productId = productId;
         this.quantity = quantity;
         this.orderDate = LocalDateTime.now();
-        this.status = "Pending";
+        this.status = "PENDING";
+    }
+
+    public boolean isPending() {
+        return "PENDING".equals(status);
+    }
+
+    public boolean canCancel() {
+        return "PENDING".equals(status) || "PROCESSING".equals(status);
     }
 }

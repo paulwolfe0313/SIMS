@@ -1,8 +1,11 @@
-com\sims\notification\kafka\OrderConsumer.class
-com\sims\notification\config\KafkaConfig.class
-com\sims\notification\entity\Notification.class
 com\sims\notification\NotificationServiceApplication.class
+com\sims\notification\security\JwtAuthenticationFilter.class
 com\sims\notification\controller\NotificationController.class
 com\sims\notification\service\NotificationService.class
 com\sims\notification\repository\NotificationRepository.class
+com\sims\notification\entity\Notification$NotificationBuilder.class
+com\sims\notification\kafka\OrderConsumer.class
+com\sims\notification\config\KafkaConfig.class
+com\sims\notification\entity\Notification.class
+com\sims\notification\security\SecurityConfig.class
 com\sims\notification\event\OrderEvent.class

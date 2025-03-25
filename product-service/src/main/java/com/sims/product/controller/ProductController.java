@@ -4,10 +4,10 @@ import com.sims.product.entity.Product;
 import com.sims.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/products")
@@ -16,36 +16,56 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    // Get all products
     @GetMapping
-    public List<Product> getAllProducts() {
-        return productService.getAllProducts();
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    public ResponseEntity<List<Product>> getAllProducts() {
+        return ResponseEntity.ok(productService.getAllProducts());
     }
 
-    // Get product by ID
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<Product> getProductById(@PathVariable Long id) {
-        Optional<Product> product = productService.getProductById(id);
-        return product.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        return productService.getProductById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
-    // Add new product
     @PostMapping
-    public Product addProduct(@RequestBody Product product) {
-        return productService.addProduct(product);
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
+        return ResponseEntity.ok(productService.saveProduct(product));
     }
 
-    // Update existing product
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product product) {
-        return ResponseEntity.ok(productService.updateProduct(id, product));
+        return productService.getProductById(id)
+                .map(existingProduct -> {
+                    product.setId(id);
+                    return ResponseEntity.ok(productService.saveProduct(product));
+                })
+                .orElse(ResponseEntity.notFound().build());
     }
 
-    // Delete product
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
-        productService.deleteProduct(id);
-        return ResponseEntity.noContent().build();
+        return productService.getProductById(id)
+                .map(product -> {
+                    productService.deleteProduct(id);
+                    return ResponseEntity.ok().<Void>build();
+                })
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/{id}/stock")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Product> updateStock(@PathVariable Long id, @RequestParam int quantity) {
+        return productService.getProductById(id)
+                .map(product -> {
+                    product.setStock(quantity);
+                    return ResponseEntity.ok(productService.saveProduct(product));
+                })
+                .orElse(ResponseEntity.notFound().build());
     }
 }

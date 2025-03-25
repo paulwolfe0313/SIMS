@@ -1,5 +1,7 @@
 C:\Users\PaulT\baylor\Dist_Systems\SIMS\product-service\src\main\java\com\sims\product\repository\ProductRepository.java
 C:\Users\PaulT\baylor\Dist_Systems\SIMS\product-service\src\main\java\com\sims\product\controller\ProductController.java
 C:\Users\PaulT\baylor\Dist_Systems\SIMS\product-service\src\main\java\com\sims\product\service\ProductService.java
+C:\Users\PaulT\baylor\Dist_Systems\SIMS\product-service\src\main\java\com\sims\product\security\SecurityConfig.java
 C:\Users\PaulT\baylor\Dist_Systems\SIMS\product-service\src\main\java\com\sims\product\ProductServiceApplication.java
 C:\Users\PaulT\baylor\Dist_Systems\SIMS\product-service\src\main\java\com\sims\product\entity\Product.java
+C:\Users\PaulT\baylor\Dist_Systems\SIMS\product-service\src\main\java\com\sims\product\security\JwtAuthenticationFilter.java
