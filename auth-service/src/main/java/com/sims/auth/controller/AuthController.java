@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -28,8 +29,15 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest request) {
-        String jwt = authService.authenticateUser(request.getEmail(), request.getPassword());
-        return ResponseEntity.ok(new JwtResponse(jwt));
+        try {
+            String jwt = authService.authenticateUser(request.getEmail(), request.getPassword());
+            return ResponseEntity.ok(new JwtResponse(jwt));
+        } catch (Exception e) {
+            System.out.println("Login failed: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(new MessageResponse("Invalid email or password"));
+        }
     }
 
     @GetMapping("/verify-email")

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 
@@ -24,23 +25,36 @@ public class JwtTokenProvider {
 
     @PostConstruct
     public void init() {
-        // Generate a secure key for HS512
-        this.key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+        // Use the configured secret key
+        this.key = Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
     }
 
     public String generateToken(Authentication authentication) {
-        User user = (User) authentication.getPrincipal();
-        Date now = new Date();
-        Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
+        try {
+            User user = (User) authentication.getPrincipal();
+            System.out.println("Generating token for user: " + user.getEmail());
+            System.out.println("User roles: " + user.getRoles());
+            System.out.println("User enabled: " + user.isEnabled());
+            
+            Date now = new Date();
+            Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
 
-        return Jwts.builder()
-                .setSubject(Long.toString(user.getId()))
-                .claim("email", user.getEmail())
-                .claim("roles", user.getRoles())
-                .setIssuedAt(new Date())
-                .setExpiration(expiryDate)
-                .signWith(key, SignatureAlgorithm.HS512)
-                .compact();
+            String token = Jwts.builder()
+                    .setSubject(Long.toString(user.getId()))
+                    .claim("email", user.getEmail())
+                    .claim("roles", user.getRoles())
+                    .setIssuedAt(new Date())
+                    .setExpiration(expiryDate)
+                    .signWith(key, SignatureAlgorithm.HS512)
+                    .compact();
+            
+            System.out.println("Generated token: " + token);
+            return token;
+        } catch (Exception e) {
+            System.out.println("Error generating token: " + e.getMessage());
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     public Long getUserIdFromJWT(String token) {

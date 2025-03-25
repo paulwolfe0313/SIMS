@@ -49,7 +49,7 @@ public class AuthService {
         user.setPassword(passwordEncoder.encode(password));
         user.setFirstName(firstName);
         user.setLastName(lastName);
-        user.setRoles(Collections.singleton("USER"));
+        user.setRoles(Collections.singleton("ROLE_USER"));
         user.setVerificationToken(UUID.randomUUID().toString());
 
         User savedUser = userRepository.save(user);
@@ -61,13 +61,35 @@ public class AuthService {
     }
 
     public String authenticateUser(String email, String password) {
-        Authentication authentication = authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(email, password)
-        );
+        try {
+            System.out.println("Attempting authentication for email: " + email);
+            User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+            
+            System.out.println("Found user: " + user.getEmail());
+            System.out.println("User enabled: " + user.isEnabled());
+            System.out.println("User roles: " + user.getRoles());
+            
+            // First verify the password matches
+            if (!passwordEncoder.matches(password, user.getPassword())) {
+                System.out.println("Password does not match");
+                throw new RuntimeException("Invalid credentials");
+            }
+            System.out.println("Password matches");
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+            // Create authentication token
+            UsernamePasswordAuthenticationToken authToken = 
+                new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+            
+            SecurityContextHolder.getContext().setAuthentication(authToken);
+            System.out.println("Authentication set in SecurityContext");
 
-        return tokenProvider.generateToken(authentication);
+            return tokenProvider.generateToken(authToken);
+        } catch (Exception e) {
+            System.out.println("Authentication failed: " + e.getMessage());
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     @Transactional
